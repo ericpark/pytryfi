@@ -50,6 +50,8 @@ class PyTryFi(object):
                         #get the daily, weekly and monthly stats and set
                         pStatsJSON = query.getCurrentPetStats(self._session,p._petId)
                         p.setStats(pStatsJSON['dailyStat'],pStatsJSON['weeklyStat'],pStatsJSON['monthlyStat'])
+                        pDailyStepsJSON = query.getHistoricalPetStats(self._session,p._petId)
+                        p.setDailySteps(pDailyStepsJSON["dailyStat"])
                         #get the daily, weekly and monthly rest stats and set
                         pRestStatsJSON = query.getCurrentPetRestStats(self._session,p._petId)
                         p.setRestStats(pRestStatsJSON['dailyStat'],pRestStatsJSON['weeklyStat'],pRestStatsJSON['monthlyStat'])

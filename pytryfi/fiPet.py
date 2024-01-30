@@ -59,7 +59,7 @@ class FiPet(object):
         try:
             self._photoLink = petJSON['photos']['first']['image']['fullSize']
         except Exception as e:
-            #capture_exception(e)
+            capture_exception(e)
             LOGGER.warning(f"Cannot find photo of your pet. Defaulting to empty string.")
             self._photoLink = ""
         try:
@@ -91,7 +91,7 @@ class FiPet(object):
                 self._currPlaceName = activityJSON['place']['name']
                 self._currPlaceAddress = activityJSON['place']['address']
             except Exception as e:
-                #capture_exception(e)
+                capture_exception(e)
                 LOGGER.warning("Could not set place, defaulting to Unknown")
                 self._currPlaceName = "UNKNOWN"
                 self._currPlaceAddress = "UNKNOWN"
@@ -137,6 +137,16 @@ class FiPet(object):
         except Exception as e:
             capture_exception(e)
 
+        self._lastUpdated = datetime.datetime.now()
+    
+    # set the Pet's daily steps 
+    def setDailySteps(self, activityJSONDaily):
+        try:
+            #distance is in metres
+            self._stepsByDay = activityJSONDaily['activitySummaries']
+        except TryFiError as e:
+            LOGGER.error(f"Unable to set values Daily Steps for Pet {self.name}.\nException: {e}\nwhile parsing {activityJSONDaily}")
+            raise TryFiError("Unable to set Pet Daily Steps")
         self._lastUpdated = datetime.datetime.now()
 
     # set the Pet's current rest details for daily, weekly and monthly
@@ -357,9 +367,11 @@ class FiPet(object):
     def monthlySteps(self):
         return self._monthlySteps
     @property
+    def stepsByDay(self):
+        return self._stepsByDay
+    @property
     def monthlyTotalDistance(self):
         return self._monthlyTotalDistance
-
     @property
     def dailySleep(self):
         return self._dailySleep
@@ -378,7 +390,6 @@ class FiPet(object):
     @property
     def monthlyNap(self):
         return self._monthlyNap
-
     @property
     def lastUpdated(self):
         return self._lastUpdated
@@ -425,6 +436,9 @@ class FiPet(object):
     def getMonthlySteps(self):
         return self.monthlySteps
     
+    def getStepsByDay(self):
+        return self.stepsByDay
+
     def getMonthlyGoal(self):
         return self.monthlyGoal
 

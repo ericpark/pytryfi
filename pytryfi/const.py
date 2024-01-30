@@ -1,6 +1,6 @@
-SENTRY_URL = "https://c7618923f758480ca2af05a21123f855@o580516.ingest.sentry.io/5735605"
+SENTRY_URL = ""
 
-PYTRYFI_VERSION = "0.0.21"
+PYTRYFI_VERSION = "0.0.22"
 
 API_HOST_URL_BASE   = "https://api.tryfi.com"
 API_GRAPHQL         = "/graphql"
@@ -15,11 +15,15 @@ PET_ACTIVITY_WALK = "Walk"
 PET_ACTIVITY_REST = "Rest"
 
 VAR_PET_ID = "__PET_ID__"
+VAR_LIMIT_DAYS = "__LIMIT_DAYS__"
+
+VAR_DEFAULT_DAYS = 28
 
 QUERY_CURRENT_USER  = "query {  currentUser {    ...UserDetails  }}"
 QUERY_CURRENT_USER_FULL_DETAIL  = "query {  currentUser {    ...UserFullDetails  }}"
 QUERY_PET_CURRENT_LOCATION = "query {  pet (id: \""+VAR_PET_ID+"\") {    ongoingActivity {      __typename      ...OngoingActivityDetails    }  }}"
 QUERY_PET_ACTIVITY = "query {  pet (id: \""+VAR_PET_ID+"\") {       dailyStat: currentActivitySummary (period: DAILY) {      ...ActivitySummaryDetails    }    weeklyStat: currentActivitySummary (period: WEEKLY) {      ...ActivitySummaryDetails    }    monthlyStat: currentActivitySummary (period: MONTHLY) {      ...ActivitySummaryDetails    }  }}"
+QUERY_PET_ACTIVITY_HISTORICAL = "query {  pet (id: \""+VAR_PET_ID+"\") {	dailyStat:  activitySummaryFeed (period: DAILY, limit: "+VAR_LIMIT_DAYS+")  {      __typename      activitySummaries {        __typename        ...ActivitySummaryDetails      }  }  		}}"
 QUERY_PET_REST = "query {  pet (id: \""+VAR_PET_ID+"\") {	dailyStat: restSummaryFeed(cursor: null, period: DAILY, limit: 1) {      __typename      restSummaries {        __typename        ...RestSummaryDetails      }    }	weeklyStat: restSummaryFeed(cursor: null, period: WEEKLY, limit: 1) {      __typename      restSummaries {        __typename        ...RestSummaryDetails      }    }	monthlyStat: restSummaryFeed(cursor: null, period: MONTHLY, limit: 1) {      __typename      restSummaries {        __typename        ...RestSummaryDetails      }    }  }}"
 QUERY_PET_DEVICE_DETAILS = "query {  pet (id: \""+VAR_PET_ID+"\") {    __typename    ...PetProfile  }}"
 
@@ -41,6 +45,7 @@ FRAGMENT_CIRCLE_DETAILS = "fragment CircleDetails on Circle {  __typename  radiu
 FRAGMENT_LOCATION_POINT = "fragment LocationPoint on Location {  __typename  date  errorRadius  position {    __typename    ...PositionCoordinates  }}"
 FRAGMENT_PLACE_DETAILS = "fragment PlaceDetails on Place {  __typename  id  name  address  position {    __typename    ...PositionCoordinates  }  radius}"
 FRAGMENT_ACTIVITY_SUMMARY_DETAILS = "fragment ActivitySummaryDetails on ActivitySummary {  __typename  start  end  totalSteps  stepGoal  dailySteps {    __typename    date    totalSteps    stepGoal  }  totalDistance}"
+FRAGMENT_ACTIVITY_SUMMARY_HISTORICAL_DETAILS = "fragment ActivitySummaryDetails on ActivitySummary {  __typename  start  end  totalSteps  stepGoal  totalDistance}"
 FRAGMENT_REST_SUMMARY_DETAILS = "fragment RestSummaryDetails on RestSummary {  __typename  start  end  data {    __typename    ... on ConcreteRestSummaryData {      sleepAmounts {        __typename        type        duration      }    }  }}"
 MUTATION_DEVICE_OPS = "mutation UpdateDeviceOperationParams($input: UpdateDeviceOperationParamsInput!) {  updateDeviceOperationParams(input: $input) {    __typename    ...DeviceDetails  }}"
 MUTATION_SET_LED_COLOR = "mutation SetDeviceLed($moduleId: String!, $ledColorCode: Int!) {  setDeviceLed(moduleId: $moduleId, ledColorCode: $ledColorCode) {    __typename    ...DeviceDetails  }}"

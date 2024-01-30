@@ -57,6 +57,17 @@ def getCurrentPetLocation(sessionId, petId):
         LOGGER.error("Error performing query: " + e)
         capture_exception(e)
 
+def getHistoricalPetStats(sessionId, petId, days=VAR_DEFAULT_DAYS):
+    try:
+        qString = (QUERY_PET_ACTIVITY_HISTORICAL.replace(VAR_PET_ID, petId)).replace(VAR_LIMIT_DAYS, str(days)) + FRAGMENT_ACTIVITY_SUMMARY_HISTORICAL_DETAILS
+        response = query(sessionId, qString)
+        LOGGER.debug(f"getHistoricalPetStats: {response}")
+        return response['data']['pet']
+    except Exception as e:
+        LOGGER.error("Error performing query: " + e)
+        capture_exception(e)
+
+
 def getCurrentPetStats(sessionId, petId):
     try:
         qString = QUERY_PET_ACTIVITY.replace(VAR_PET_ID, petId) + FRAGMENT_ACTIVITY_SUMMARY_DETAILS
