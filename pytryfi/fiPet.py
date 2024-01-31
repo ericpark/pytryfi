@@ -2,7 +2,7 @@ import logging
 from pytryfi.fiDevice import FiDevice
 from pytryfi.common import query
 from pytryfi.exceptions import *
-from pytryfi.const import PET_ACTIVITY_ONGOINGWALK
+from pytryfi.const import PET_ACTIVITY_ONGOINGWALK, VAR_DEFAULT_DAYS
 import datetime
 from sentry_sdk import capture_exception
 
@@ -204,6 +204,17 @@ class FiPet(object):
         except Exception as e:
             LOGGER.error(f"Could not update stats for Pet {self.name}.\n{e}")
             capture_exception(e)
+
+    # Update the Stats of the pet
+    def updateHistoricalStepStats(self, sessionId, days=VAR_DEFAULT_DAYS):
+        try:
+            pDailyStepsJSON = query.getHistoricalPetStats(sessionId, self.petId, days=days)
+            self.setDailySteps(pDailyStepsJSON["dailyStat"])
+            return True
+        except Exception as e:
+            LOGGER.error(f"Could not update historical step stats for Pet {self.name}.\n{e}")
+            capture_exception(e)
+
 
     # Update the Stats of the pet
     def updateRestStats(self, sessionId):
