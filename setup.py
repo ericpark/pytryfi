@@ -21,8 +21,8 @@ print(pkg)
 setup(
     name="pytryfi", # Replace with your own username
     version=PYTRYFI_VERSION,
-    author="Steve Babcock",
-    author_email="steve.w.babcock@gmail.com",
+    author="Eric Park",
+    author_email="eric@ericspark.com",
     description="Python Interface for TryFi Dog Collars",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -39,3 +39,8 @@ setup(
     ],
     python_requires='>=3.6',
 )
+# Instructions
+
+# source env/bin/activate
+# pip install wheel build
+# python3 setup.py sdist

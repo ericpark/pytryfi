@@ -112,38 +112,38 @@ data = tryfi.pets[0].stepsByDay
 # 0.0.22
 - Added API to get daily steps by number of days
 
-# 0.0.21
+## 0.0.21
 - Enchanced error handling of pet information in case its not available
 
-# 0.0.20
+## 0.0.20
 - Fix - Added HTTP Header to the requests of all GraphQL requests
 
-# 0.0.19
+## 0.0.19
 
 - Breaking Change - removed battery health as its not available in the newer collars and deprecated
 - Fix - If a pet exists and has no collar then ignore. Previously it would attempt to associate a collar that doesn't exist and error out.
 
-# 0.0.18
+## 0.0.18
 
 - Maintenance - Removal of walkversion which is being deprecated and no longer required.
 
-# 0.0.17
+## 0.0.17
 
 - Enhancement - added 3 functions to get the Activity Type, Current Place Name and Current Place Address
 
-# 0.0.16
+## 0.0.16
 
 - Fix - removed hardcoding of a single household. Households are iterated through for pets and bases.
 
-# 0.0.15
+## 0.0.15
 
 - Enhancement - added Sleep and Nap statistics. If the collar doesn't support this feature it defaults to zero.
 
-# 0.0.14
+## 0.0.14
 
 - Fix - resolved issue between V1 and V2 of the TryFi collars where the isCharging property doesn't exist in V2. This causes failed parsing errors and some users get a ledOn error as a symptom in hass-tryfi (Home Assistant - TryFi implementation)
 
-# 0.0.13
+## 0.0.13
 
 - Enhancement - removed error logging where not required
 - Fix - resolved issue where the variables are unbound in the login function
