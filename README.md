@@ -9,7 +9,7 @@ NOTE: Since this interacts with undocumented APIs, this may change without notic
 To install this package, use pip
 
 ```python
-python -m pip install "pytryfi"
+python -m pip install git+https://github.com/ericpark/pytryfi.git
 ```
 
 ## Usage
@@ -90,17 +90,27 @@ tryfi.pets[0].monthlySleep
 tryfi.pets[0].dailyNap
 tryfi.pets[0].weeklyNap
 tryfi.pets[0].monthlyNap
+
+#updates the list of daily steps for the previous number of days.
+tryfi.pets[0].updateHistoricalStepStats(tryfi.session, days=days)
+
+#this returns a list of daily steps for the last 14 days or number of days set by updateHistoricalStepStats
+data = tryfi.pets[0].stepsByDay
 ```
 
 ## To Do
 
-- Provide Activity Data History
+- Get location history
 
 ## Links:
 
+- [pyTryFi](https://github.com/sbabcock23/pytryfi)
 - [TryFi](https://tryfi.com/)
 
 # Version History
+
+# 0.0.22
+- Added API to get daily steps by number of days
 
 # 0.0.21
 - Enchanced error handling of pet information in case its not available
