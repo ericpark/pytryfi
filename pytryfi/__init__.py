@@ -50,6 +50,7 @@ class PyTryFi(object):
                         #get the daily, weekly and monthly stats and set
                         pStatsJSON = query.getCurrentPetStats(self._session,p._petId)
                         p.setStats(pStatsJSON['dailyStat'],pStatsJSON['weeklyStat'],pStatsJSON['monthlyStat'])
+                        #get the historical daily stats defaulted to 28 days set in const.py
                         pDailyStepsJSON = query.getHistoricalPetStats(self._session,p._petId)
                         p.setDailySteps(pDailyStepsJSON["dailyStat"])
                         #get the daily, weekly and monthly rest stats and set
@@ -128,6 +129,25 @@ class PyTryFi(object):
                 count = count + 1
         except Exception as e:
             capture_exception(e)
+
+    def updateHistoricalDailySteps(self, days):
+        try:
+            petListJSON = query.getPetList(self._session)
+            updatedPets = []
+            h = 0
+            for house in petListJSON:
+                for pet in petListJSON[h]['household']['pets']:
+                    p = FiPet(pet['id'])
+                    #get the historical daily stats defaulted to 28 days set in const.py
+                    pDailyStepsJSON = query.getHistoricalPetStats(self._session,p._petId, days)
+                    p.setDailySteps(pDailyStepsJSON["dailyStat"])
+                    LOGGER.debug(f"Getting Historical Steps for Pet: {p._name} with Device: {p._device._deviceId}")
+                    updatedPets.append(p)
+                h = h + 1
+            self._pets = updatedPets
+        except Exception as e:
+            capture_exception(e)
+
 
     # return the pet object based on petId
     def getPet(self, petId):
